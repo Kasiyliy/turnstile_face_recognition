@@ -12,7 +12,8 @@ class Person(models.Model):
     first_name = models.CharField(max_length=200, verbose_name='Имя')
     last_name = models.CharField(max_length=200 , verbose_name='Фамилия')
     middle_name = models.CharField(max_length=200, null=True, blank=True,  verbose_name='Отчество')
-    card_num = models.CharField(max_length=200, null=True, blank=True, verbose_name='Номер карты')
+    card_num = models.CharField(max_length=8, null=True, blank=True, verbose_name='Номер карты')
+    person_num = models.CharField(max_length=5, null=True, blank=True, verbose_name='Номер человека')
     birth_date = models.DateTimeField( verbose_name='День рождения')
     created = models.DateTimeField(
             default=timezone.now,verbose_name='Дата создания')

@@ -10,16 +10,16 @@ class FaceAdmin(admin.ModelAdmin):
 
 class PersonUnauthorizedEntryAdmin(admin.ModelAdmin):
     
-    fields = ['person' , 'image' , 'device', 'created' , 'image_tag' ,'image_tag2']
-    readonly_fields = [ 'person' , 'image' , 'device', 'created' , 'image_tag', 'image_tag2']
+    fields = ['person' , 'image' , 'device',  'image_tag' ,'image_tag2']
+    readonly_fields = ['image_tag', 'image_tag2']
 
 	
 
 class PersonArrivalAdmin(admin.ModelAdmin):
     
-    readonly_fields = [ 'person' , 'image' , 'device', 'created' , 'come_in' , 'image_tag' ,'image_tag2']
+    fields = [ 'person' , 'image' , 'device', 'come_in' , 'image_tag' ,'image_tag2']
 
-    readonly_fields = [ 'person' , 'image' , 'device', 'created' , 'come_in' , 'image_tag' ,'image_tag2']
+    readonly_fields = [ 'image_tag' ,'image_tag2']
 
 admin.site.register(Person)
 admin.site.register(Face,FaceAdmin)

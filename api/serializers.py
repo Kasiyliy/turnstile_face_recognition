@@ -17,7 +17,7 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'middle_name','card_num', 'birth_date' , 'created')
+        fields = ('id', 'first_name', 'last_name', 'middle_name','card_num','person_num', 'birth_date' , 'created')
         read_only_fields = ('created',)
 
 class FingerSerializer(serializers.ModelSerializer):

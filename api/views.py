@@ -47,8 +47,8 @@ class MyViewSet(ViewSet):
 		if(request.method=='POST'):
 			if ('file' not in request.data):
 				return Response({"message": "Error, empty content: file!"})
-			if ('card_num' not in request.data):
-				return Response({"message": "Error, empty content: card_num!"})
+			if ( not ('card_num' in request.data or 'person_num' in request.data )):
+				return Response({"message": "Error, empty content: card_num or person_num!"})
 			
 			if ('come_in' not in request.data):
 				return Response({"message": "Error, empty content: come_in!"})
@@ -66,10 +66,17 @@ class MyViewSet(ViewSet):
 				return Response({"message": "No such device!"})
 
 			person =  ''
-			try:
-				person = Person.objects.get(card_num = (request.data['card_num']))
-			except:
-				return Response({"message": "No such person!"})
+
+			if 'card_num' in request.data :
+				try:
+					person = Person.objects.get(card_num=(request.data['card_num']))
+				except:
+					return Response({"message": "No such person!"})
+			else :
+				try:
+					person = Person.objects.get(person_num=(request.data['person_num']))
+				except:
+					return Response({"message": "No such person!"})
 			img =''
 			try:
 				img = Image.open(f)
@@ -82,7 +89,11 @@ class MyViewSet(ViewSet):
 
 			img = face_recognition.load_image_file(f)
     
-			face = Face.objects.filter(person = person)[0]
+			face = ''
+			try:
+				face = Face.objects.filter(person = person)[0]
+			except:
+				return Response({"message": "No such image!"})
 
 			dict = functions.find(img , face.image.path)
 			responseMSG = {"message" : str(dict['flag'])}
