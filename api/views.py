@@ -77,6 +77,13 @@ class MyViewSet(ViewSet):
 					person = Person.objects.get(person_num=(request.data['person_num']))
 				except:
 					return Response({"message": "No such person!"})
+
+			if device.organization is not None and person.organization is not None:
+				if device.organization.id is not person.organization.id:
+					return Response({"message": "Person not from this organization!"})
+			else :
+				return Response({"message": "Person or device don't have organization!"})
+
 			img =''
 			try:
 				img = Image.open(f)

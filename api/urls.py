@@ -20,6 +20,10 @@ urlpatterns = [
     url(r'devices/(?P<pk>[0-9]+)$', DeviceDetail.as_view(), name="device-detail"),
     url('devices', DeviceList.as_view(), name="device-list"),
 
+    #Organization
+    url(r'organizations/(?P<pk>[0-9]+)$', DeviceDetail.as_view(), name="organization-detail"),
+    url('organizations', DeviceList.as_view(), name="organization-list"),
+
     #PersonArrival
     url(r'person_arrival/(?P<pk>[0-9]+)$', PersonArrivalDetail.as_view(), name="person-arrival-detail"),
     url('person_arrival', PersonArrivalList.as_view(), name="person-arrival-list"),
