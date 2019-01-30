@@ -45,6 +45,7 @@ class MyViewSet(ViewSet):
 	
 	def verify(self, request, format = None):
 		if(request.method=='POST'):
+
 			if ('file' not in request.data):
 				return Response({"message": "Error, empty content: file!"})
 			if ( not ('card_num' in request.data or 'person_num' in request.data )):
@@ -113,7 +114,7 @@ class MyViewSet(ViewSet):
 				newPA.save()
 				responseMSG.update({"saved" : "True"})
 			else :
-				newPUE = PersonUnauthorizedEntry();
+				newPUE = PersonUnauthorizedEntry()
 				newPUE.person = person
 				newPUE.device = device
 				newPUE.image = f
@@ -126,7 +127,6 @@ class MyViewSet(ViewSet):
 			return Response({"message" : "Usupported method type"})
 
 class PersonList(generics.ListCreateAPIView):
-    
     queryset = Person.objects.all()
     model = Person
     serializer_class = PersonSerializer

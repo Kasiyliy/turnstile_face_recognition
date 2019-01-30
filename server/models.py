@@ -5,8 +5,6 @@ from django.dispatch.dispatcher import receiver
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
-
-
 class PersonType(models.Model):
     name = models.CharField(max_length=255, verbose_name='Наименование')
 
@@ -14,8 +12,8 @@ class PersonType(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Тип пользователя'
-        verbose_name_plural = 'Типы пользователей'
+        verbose_name = 'Тип человека'
+        verbose_name_plural = 'Типы людей'
 
 class Organization(models.Model):
     name = models.CharField(max_length=255, verbose_name='Наименование организации')
@@ -27,11 +25,10 @@ class Organization(models.Model):
         verbose_name = 'Организация'
         verbose_name_plural = 'Организации'
 
-
 class ModeratorOrganization(models.Model):
-    moderator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Модератор')
+    moderator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Модератор', blank=False, null=False)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE,
-                                     verbose_name=Organization._meta.verbose_name.title())
+                                     verbose_name=Organization._meta.verbose_name.title(), blank=False, null=False)
     class Meta:
         verbose_name = 'Организация модератора'
         verbose_name_plural = 'Организации модераторов'
@@ -47,6 +44,7 @@ class Person(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, verbose_name='Организация', null=True, blank=False)
     person_type = models.ForeignKey(PersonType, on_delete=models.SET_NULL, verbose_name='Тип пользователя', null=True ,blank=False)
     birth_date = models.DateTimeField( verbose_name='День рождения')
+    iin = models.BigIntegerField(max_length=999999999999, null=True, blank=True, verbose_name='ИИН', unique=True)
     created = models.DateTimeField(
             default=timezone.now,verbose_name='Дата создания')
     
@@ -94,15 +92,12 @@ class Device(models.Model):
         verbose_name = 'Устройство'
         verbose_name_plural = 'Устройства'
 
-
-
 class PersonArrival(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name='ФИО')
     device = models.ForeignKey(Device, on_delete=models.CASCADE, verbose_name='Устройство')
     come_in = models.BooleanField(verbose_name='Зашёл')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     image = models.ImageField(verbose_name='Фото' , default= 'noimage.jpg' ,  upload_to='person_arrivals')
-
 
     def image_tag(self):
         # used in the admin site model as a "thumbnail"
@@ -141,11 +136,7 @@ class PersonUnauthorizedEntry(models.Model):
     def image_tag2(self):
         # used in the admin site model as a "thumbnail"
         return mark_safe('<img src="/media/{}" width="150" height="150" />'.format((Face.objects.get(person=self.person)).image))
-    image_tag2.short_description = ' Реальный человек '    
-
-    
-    
-    
+    image_tag2.short_description = ' Реальный человек '
 
     def __str__(self):
         
@@ -154,7 +145,6 @@ class PersonUnauthorizedEntry(models.Model):
     class Meta:
         verbose_name = 'История несанкционированных входов'
         verbose_name_plural = 'Истории несанкционированных входов'
-
 
 @receiver(pre_delete, sender=Face)
 def face_delete(sender, instance, **kwargs):
