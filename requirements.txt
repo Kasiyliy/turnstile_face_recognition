@@ -6,7 +6,7 @@ click==6.7
 cryptography==2.3.1
 Django==2.0.8
 django-rest-auth==0.9.3
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 dlib==19.10.0
 ez-setup==0.9
 face-recognition==1.2.2
