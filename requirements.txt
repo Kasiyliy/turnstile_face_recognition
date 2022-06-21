@@ -13,7 +13,7 @@ face-recognition==1.2.2
 face-recognition-models==0.3.0
 idna==2.6
 mysql-connector==2.1.6
-numpy==1.14.2
+numpy==1.22.0
 opencv-python==3.4.0.12
 Pillow==5.0.0
 pycparser==2.18
